@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
@@ -31,9 +33,9 @@ group :development, :test do
 end
 
 group :development do
+  gem 'listen', '~> 3.3'
   gem 'rubocop', require: false
   gem 'rubocop-rails', require: false
-  gem 'listen', '~> 3.3'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end

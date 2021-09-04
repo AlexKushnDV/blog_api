@@ -10,12 +10,22 @@ AllCops:
     - 'vendor/bundle/**/*'
 
 Bundler/OrderedGems:
-  Enabled: false
+  Enabled: true
 
 Layout/LineLength:
-  Enabled: false
+  Max: 120
 
 Metrics:
+  Enabled: true
+
+Metrics/MethodLength:
+  Exclude:
+    - test/**/*
+
+Rails:
+  Enabled: true
+
+Rails/FilePath:
   Enabled: false
 
 Style/BlockComments:
