@@ -37,6 +37,7 @@ module Api
       end
 
       def check_owner
+        set_article
         head :forbidden unless @article.user_id == current_user&.id
       end
 

@@ -8,6 +8,8 @@ module Authenticable
     return nil if header.nil?
 
     decoded = JsonWebToken.decode(header)
+    return nil if decoded.nil?
+
     @current_user = begin
       User.find(decoded[:user_id])
     rescue StandardError
