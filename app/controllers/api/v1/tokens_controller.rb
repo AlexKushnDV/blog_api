@@ -19,7 +19,7 @@ module Api
 
       # Only allow a trusted parameter "allow list" through.
       def user_params
-        params.permit(:email, :password)
+        params.require(:user).permit(:email, :password)
       end
     end
   end

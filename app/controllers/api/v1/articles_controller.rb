@@ -33,7 +33,7 @@ module Api
       private
 
       def article_params
-        params.permit(:title, :content, :category, :date)
+        params.require(:article).permit(:title, :content, :category, :date)
       end
 
       def check_owner
