@@ -35,6 +35,7 @@ group :development, :test do
 end
 
 group :development do
+  gem 'bullet'
   gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
   gem 'listen', '~> 3.3'
   gem 'rubocop', require: false
