@@ -8,17 +8,23 @@ module Api
       before_action :check_owner, only: %i[destroy]
 
       def index
-        render json: Article.all
+        @articles = Article.all
+        render json: ArticleSerializer.new(@articles)
+                                      .serializable_hash.to_json
       end
 
       def show
-        render json: @article
+        options = { include: [:user] }
+        render json: ArticleSerializer.new(@article, options)
+                                      .serializable_hash.to_json
       end
 
       def create
         article = current_user.articles.build(article_params)
         if article.save
-          render json: article, status: :created
+          render json: ArticleSerializer.new(article)
+                                        .serializable_hash.to_json,
+                 status: :created
         else
           render json: { errors: article.errors }, status:
             :unprocessable_entity

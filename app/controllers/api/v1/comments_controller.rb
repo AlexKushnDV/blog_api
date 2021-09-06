@@ -4,19 +4,29 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :set_comment, only: %i[show]
-      before_action :set_article, only: %i[create destroy]
+      before_action :set_article, only: %i[index create destroy]
       before_action :check_login, only: %i[create]
       before_action :check_owner, only: %i[destroy]
 
+      def index
+        @comments = Comment.all
+        render json: CommentSerializer.new(@comments)
+                                      .serializable_hash.to_json
+      end
+
       def show
-        render json: @comment
+        options = { include: [:article] }
+        render json: CommentSerializer.new(@comment, options)
+                                      .serializable_hash.to_json
       end
 
       def create
         @comment = @article.comments.build(comment_params)
         @comment.user_id = current_user&.id
         if @comment.save
-          render json: @comment, status: :created
+          render json: CommentSerializer.new(@comment)
+                                        .serializable_hash.to_json,
+                 status: :created
         else
           render json: { errors: @comment.errors }, status:
             :unprocessable_entity

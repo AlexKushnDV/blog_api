@@ -12,7 +12,7 @@ end
 
 5.times do
   user = User.create! email: Faker::Internet.email, password: '123456'
-  puts "Created a new user: #{user.email}"
+  # puts "Created a new user: #{user.email}"
   3.times do
     article = Article.create!(
       title: Faker::Book.title,
@@ -22,14 +22,14 @@ end
       user_id: user.id
     )
     2.times do
-      comment = Comment.create!(
+      Comment.create!(
         content: Faker::Lorem.paragraph_by_chars(number: 800, supplemental: false),
         user_id: user.id,
         article_id: article.id
       )
 
-      puts "Created an comment: #{comment.id}"
+      # puts "Created an comment: #{comment.id}"
     end
-    puts "Created an article: #{article.title}"
+    # puts "Created an article: #{article.title}"
   end
 end
