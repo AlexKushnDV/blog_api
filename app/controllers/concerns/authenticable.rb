@@ -4,7 +4,9 @@ module Authenticable
   def current_user
     return @current_user if @current_user
 
-    header = request.headers['Authorization']
+    pattern = /^Bearer /
+    header  = request.authorization
+    header.gsub!(pattern, '') if header&.match(pattern)
     return nil if header.nil?
 
     decoded = JsonWebToken.decode(header)

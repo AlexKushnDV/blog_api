@@ -30,7 +30,7 @@ class Article < ApplicationRecord
     end
 
     articles.each do |article|
-      article.content = article.content.truncate(500)
+      article.content = article.content.truncate(503)
     end
 
     articles
