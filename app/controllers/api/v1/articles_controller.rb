@@ -52,7 +52,7 @@ module Api
       end
 
       def permitted_params
-        params.permit(:category, :email)
+        params.permit(:category, :email, :format)
       end
     end
   end
