@@ -29,10 +29,6 @@ class Article < ApplicationRecord
       articles = articles.filter_by_author(user.id)
     end
 
-    articles.each do |article|
-      article.content = article.content.truncate(503)
-    end
-
     articles
   end
 end

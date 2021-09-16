@@ -8,7 +8,7 @@ module Api
       before_action :check_owner, only: %i[destroy]
 
       def index
-        @articles = Article.search(params)
+        @articles = Article.search(params).decorate
         render json: ArticleSerializer.new(@articles)
                                       .serializable_hash.to_json
       end
