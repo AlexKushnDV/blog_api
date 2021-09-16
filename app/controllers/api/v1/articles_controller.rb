@@ -8,7 +8,7 @@ module Api
       before_action :check_owner, only: %i[destroy]
 
       def index
-        @articles = Article.search(params).decorate
+        @articles = FindArticles.new(Article.all.decorate).call(permitted_params)
         render json: ArticleSerializer.new(@articles)
                                       .serializable_hash.to_json
       end
@@ -49,6 +49,10 @@ module Api
 
       def set_article
         @article = Article.find(params[:id])
+      end
+
+      def permitted_params
+        params.permit(:category, :email)
       end
     end
   end
