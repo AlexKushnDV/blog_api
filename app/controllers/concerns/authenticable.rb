@@ -22,6 +22,6 @@ module Authenticable
   protected
 
   def check_login
-    head :forbidden unless current_user
+    head :unauthorized unless current_user
   end
 end

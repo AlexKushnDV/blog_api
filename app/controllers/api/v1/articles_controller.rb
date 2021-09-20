@@ -3,8 +3,8 @@
 module Api
   module V1
     class ArticlesController < ApplicationController
-      before_action :set_article, only: %i[show]
-      before_action :check_login, only: %i[create]
+      before_action :set_article, only: %i[show destroy]
+      before_action :check_login, only: %i[create destroy]
       before_action :check_owner, only: %i[destroy]
 
       def index
@@ -43,8 +43,7 @@ module Api
       end
 
       def check_owner
-        set_article
-        head :forbidden unless @article.user_id == current_user&.id
+        head :forbidden unless @article.user_id == current_user.id
       end
 
       def set_article

@@ -4,7 +4,8 @@ module Api
   module V1
     class CommentsController < ApplicationController
       before_action :set_article, only: %i[index create destroy]
-      before_action :check_login, only: %i[create]
+      before_action :set_comment, only: %i[destroy]
+      before_action :check_login, only: %i[create destroy]
       before_action :check_owner, only: %i[destroy]
 
       def index
@@ -16,7 +17,7 @@ module Api
 
       def create
         @comment = @article.comments.build(comment_params)
-        @comment.user_id = current_user&.id
+        @comment.user_id = current_user.id
         if @comment.save
           render json: CommentSerializer.new(@comment)
                                         .serializable_hash.to_json,
@@ -28,7 +29,6 @@ module Api
       end
 
       def destroy
-        @comment = @article.comments.find(params[:id])
         @comment.destroy
         head :no_content
       end
@@ -40,12 +40,10 @@ module Api
       end
 
       def check_owner
-        set_comment
-        head :forbidden unless @comment.user_id == current_user&.id
+        head :forbidden unless @comment.user_id == current_user.id
       end
 
       def set_comment
-        set_article
         @comment = @article.comments.find(params[:id])
       end
 
