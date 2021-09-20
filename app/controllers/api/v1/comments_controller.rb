@@ -3,14 +3,16 @@
 module Api
   module V1
     class CommentsController < ApplicationController
+      include Paginable
+
       before_action :set_article, only: %i[index create destroy]
       before_action :set_comment, only: %i[destroy]
       before_action :check_login, only: %i[create destroy]
       before_action :check_owner, only: %i[destroy]
 
       def index
-        options = { include: [:user] }
-        @comments = @article.comments.includes([:user]).all
+        @comments = @article.comments.page(current_page).per(per_page).all
+        options = get_links_serializer_options('api_v1_article_comments_path', @comments)
         render json: CommentSerializer.new(@comments, options)
                                       .serializable_hash.to_json
       end

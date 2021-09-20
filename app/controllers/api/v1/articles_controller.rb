@@ -3,13 +3,16 @@
 module Api
   module V1
     class ArticlesController < ApplicationController
+      include Paginable
+
       before_action :set_article, only: %i[show destroy]
       before_action :check_login, only: %i[create destroy]
       before_action :check_owner, only: %i[destroy]
 
       def index
-        @articles = FindArticles.new(Article.all.decorate).call(permitted_params)
-        render json: ArticleSerializer.new(@articles)
+        @articles = FindArticles.new(Article.page(current_page).per(per_page).all.decorate).call(permitted_params)
+        options = get_links_serializer_options('api_v1_articles_path', @articles)
+        render json: ArticleSerializer.new(@articles, options)
                                       .serializable_hash.to_json
       end
 
